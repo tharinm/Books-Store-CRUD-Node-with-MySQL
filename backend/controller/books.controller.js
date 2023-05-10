@@ -18,12 +18,14 @@ export const getBooks = async (req, res, next) => {
 export const createBook = async (req, res, next) => {
   const q = "INSERT INTO books (`title`,`desc`,`cover`) VALUES (?);";
 
-//Testing data
+  //Testing data
   //   const values = [
-    // "title from backend",
-    // "desc from backend",
-    // "cover from backend",
-//   ];
+  // "title from backend",
+  // "desc from backend",
+  // "cover from backend",
+  //   ];
+
+  const values = [req.body.title, req.body.desc, req.body.cover];
 
   db.query(q, [values], (err, data) => {
     if (err) {
@@ -32,3 +34,10 @@ export const createBook = async (req, res, next) => {
     return res.json("Book has been created successfully");
   });
 };
+
+
+// export const deleteBook = async (re, res, next) => {
+    //  const getId=req.body.id;
+// 
+  // 
+// }

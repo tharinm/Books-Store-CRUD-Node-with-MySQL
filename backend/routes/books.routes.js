@@ -1,9 +1,14 @@
-import express from 'express'
-import { getBooks,createBook } from '../controller/books.controller.js';
+import express from "express";
+import {
+  getBooks,
+  createBook,
+  // deleteBook,
+} from "../controller/books.controller.js";
 
 const route = express.Router();
 
-route.get('/books', getBooks)
-route.post('/books',createBook)
+route.get("/books", getBooks);
+route.post("/books", createBook);
+// route.delete("/:id", deleteBook);
 
 export default route;
