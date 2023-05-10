@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { Stack } from "@mui/material";
+import SingleBooks from "../../Component/SingleBooks";
 
 export default function Books() {
   const [books, setBooks] = useState([]);
@@ -17,10 +19,18 @@ export default function Books() {
     getBooks();
   }, []);
 
-    console.log(books)
+  console.log(books);
   return (
-    <div>
-      <p>Books</p>
-    </div>
+    <Stack
+      direction="row"
+      margin="50px"
+      sx={{ gap: { lg: "70px", xs: "50px" } }}
+      flexWrap="wrap"
+      alignItem="center"
+    >
+      {books.map((books) => {
+        return <SingleBooks books={books} key={books.id} />;
+      })}
+    </Stack>
   );
 }

@@ -16,7 +16,7 @@ export const getBooks = async (req, res, next) => {
 };
 
 export const createBook = async (req, res, next) => {
-  const q = "INSERT INTO books (`title`,`desc`,`cover`) VALUES (?);";
+  const q = "INSERT INTO books (`title`,`desc`,`cover`,`price`) VALUES (?);";
 
   //Testing data
   //   const values = [
@@ -25,7 +25,7 @@ export const createBook = async (req, res, next) => {
   // "cover from backend",
   //   ];
 
-  const values = [req.body.title, req.body.desc, req.body.cover];
+  const values = [req.body.title, req.body.desc, req.body.cover,req.body.price];
 
   db.query(q, [values], (err, data) => {
     if (err) {
