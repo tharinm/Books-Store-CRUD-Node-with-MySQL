@@ -19,7 +19,7 @@ export default function Books() {
     getBooks();
   }, []);
 
-  
+
 
   console.log(books);
   return (
@@ -31,7 +31,7 @@ export default function Books() {
       alignItem="center"
     >
       {books.map((books) => {
-        return <SingleBooks books={books} key={books.id} />;
+        return <SingleBooks books={books} key={books.id} setBooks={setBooks} />;
       })}
     </Stack>
   );

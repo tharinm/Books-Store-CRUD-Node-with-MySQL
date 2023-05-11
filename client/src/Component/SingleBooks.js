@@ -7,7 +7,7 @@ import { Button, CardActionArea, CardActions } from "@mui/material";
 import { Stack } from "@mui/material";
 import axios from "axios";
 
-export default function SingleBooks({ books }) {
+export default function SingleBooks({ books, setBooks }) {
   // const handleDelete = async (id) => {
 
   // const deletBook = await axios.delete(`http://localhost:8000/api/books/${id}`);
@@ -17,7 +17,7 @@ export default function SingleBooks({ books }) {
   const handleDelete = async (id) => {
     try {
       await axios.delete(`http://localhost:8000/api/books/${id}`);
-      window.location.reload();
+      setBooks((prevBooks) => prevBooks.filter((book) => book.id !== id));
     } catch (err) {
       console.log(err);
     }
