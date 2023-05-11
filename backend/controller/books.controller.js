@@ -25,7 +25,12 @@ export const createBook = async (req, res, next) => {
   // "cover from backend",
   //   ];
 
-  const values = [req.body.title, req.body.desc, req.body.cover,req.body.price];
+  const values = [
+    req.body.title,
+    req.body.desc,
+    req.body.cover,
+    req.body.price,
+  ];
 
   db.query(q, [values], (err, data) => {
     if (err) {
@@ -35,9 +40,16 @@ export const createBook = async (req, res, next) => {
   });
 };
 
+export const deleteBook = async (req, res, next) => {
+  //request from url
+  const getId = req.params.id;
 
-// export const deleteBook = async (re, res, next) => {
-    //  const getId=req.body.id;
-// 
-  // 
-// }
+  const q = `DELETE FROM books WHERE id = ${getId}`;
+
+  db.query(q, [getId], (err, data) => {
+    if (err) {
+      return res.json(err);
+    }
+    return res.json("Book has been deleted successfully");
+  });
+};
