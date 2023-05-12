@@ -1,36 +1,76 @@
 import React, { useState } from "react";
-import { Box, Stack, TextField, Button } from "@mui/material";
+import { Box, Stack, TextField, Button, containerClasses } from "@mui/material";
 import Typography from "@mui/material/node/Typography";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import upload from "../../utils/upload";
 
 export default function Add() {
-  const [books, setBooks] = useState([]);
+  const [books, setBooks] = useState({
+    title: "",
+    description: "",
+    price: "",
+    cover: "",
+  });
   const [err, setErr] = useState(false);
+
+  const [file, setFile] = useState(null);
 
   const navigate = useNavigate();
 
-  const handleChange = (e) =>
+  const handleChange = async (e) => {
     setBooks((prev) => ({
       ...prev,
+
       [e.target.name]: e.target.value,
     }));
+  };
 
   console.log(books);
 
   const handleClick = async (e) => {
     e.preventDefault();
-    try {
-      if (books === "") {
-        return setErr(true);
+
+    if (file) {
+      const url = await upload(file);
+      setBooks((prev) => ({
+        ...prev,
+        cover: url,
+      }));
+
+      try {
+        if (books === "") {
+          return setErr(true);
+        }
+
+        const updatedBooks = {
+          ...books,
+          cover: url,
+        };
+
+        await axios.post("http://localhost:8000/api/books", updatedBooks);
+        navigate("/");
+      } catch (error) {
+        console.log(error);
+        setErr(true);
       }
-      await axios.post("http://localhost:8000/api/books", books);
-      navigate("/");
-    } catch (error) {
-      console.log(error);
-      setErr(true);
+    } else {
+      try {
+        if (books === "") {
+          return setErr(true);
+        }
+
+        await axios.post("http://localhost:8000/api/books", books);
+        navigate("/");
+      } catch (error) {
+        console.log(error);
+        setErr(true);
+      }
     }
+
+    console.log(books);
   };
+
 
   return (
     <Stack justifyItems="center" alignItems="center">
@@ -70,7 +110,7 @@ export default function Add() {
               color="secondary"
               multiline
               rows={4}
-              name="desc"
+              name="description"
               sx={{
                 width: {
                   md: "400px",
@@ -109,7 +149,7 @@ export default function Add() {
                 hidden
                 accept="image/*"
                 type="file"
-                onChange={handleChange}
+                onChange={(e) => setFile(e.target.files[0])}
               />
             </Button>
             <Button

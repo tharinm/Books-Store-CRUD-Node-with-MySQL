@@ -29,7 +29,7 @@ export default function SingleBooks({ books, setBooks }) {
         <CardMedia
           component="img"
           height="140"
-          image="https://images.pexels.com/photos/16542268/pexels-photo-16542268.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
+          image={books.cover}
           alt="green iguana"
         />
         <CardContent>

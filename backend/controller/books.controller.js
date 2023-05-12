@@ -16,24 +16,21 @@ export const getBooks = async (req, res, next) => {
 };
 
 export const createBook = async (req, res, next) => {
-  const q = "INSERT INTO books (`title`,`desc`,`cover`,`price`) VALUES (?);";
-
-  //Testing data
-  //   const values = [
-  // "title from backend",
-  // "desc from backend",
-  // "cover from backend",
-  //   ];
+  const q =
+    "INSERT INTO books (`title`,`description`,`price`,`cover`) VALUES (?);";
 
   const values = [
     req.body.title,
-    req.body.desc,
-    req.body.cover,
+    req.body.description,
     req.body.price,
+    req.body.cover,
   ];
+
+  console.log(req.body.cover)
 
   db.query(q, [values], (err, data) => {
     if (err) {
+      console.log(err)
       return res.json(err);
     }
     return res.json("Book has been created successfully");
