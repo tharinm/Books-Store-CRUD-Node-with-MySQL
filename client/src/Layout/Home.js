@@ -14,7 +14,7 @@ export default function Home() {
         <Routes>
           <Route path="/" element={<Books />} />
           <Route path="/add" element={<Add />} />
-          <Route path="/update" element={<Update />} />
+          <Route path={`/update/:id`} element={<Update />} />
         </Routes>
       </BrowserRouter>
     </div>

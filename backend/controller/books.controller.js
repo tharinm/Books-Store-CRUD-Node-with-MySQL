@@ -75,3 +75,5 @@ export const updateBook = async (req, res, next) => {
     return res.json("Book has been updated successfully");
   });
 };
+
+//get book by id

@@ -6,6 +6,7 @@ import Typography from "@mui/material/Typography";
 import { Button, CardActionArea, CardActions } from "@mui/material";
 import { Stack } from "@mui/material";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 export default function SingleBooks({ books, setBooks }) {
   // const handleDelete = async (id) => {
@@ -44,9 +45,11 @@ export default function SingleBooks({ books, setBooks }) {
       </CardActionArea>
       <CardActions>
         <Stack direction="row" spacing={2}>
-          <Button size="small" color="success" variant="contained">
-            Update
-          </Button>
+          <Link to={`/update/${books.id}`}>
+            <Button size="small" color="success" variant="contained">
+              Update
+            </Button>
+          </Link>
           <Button
             size="small"
             color="error"
