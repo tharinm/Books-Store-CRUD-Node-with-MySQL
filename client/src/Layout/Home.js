@@ -6,6 +6,7 @@ import Add from "./Pages/Add";
 import Update from "./Pages/Update";
 import Navbar from "../Component/Navbar";
 
+
 export default function Home() {
   return (
     <div>
@@ -16,6 +17,7 @@ export default function Home() {
           <Route path="/add" element={<Add />} />
           <Route path={`/update/:id`} element={<Update />} />
         </Routes>
+       
       </BrowserRouter>
     </div>
   );

@@ -4,6 +4,7 @@ import Typography from "@mui/material/node/Typography";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import upload from "../../utils/upload";
+import Loading from "../../Component/Loading";
 
 export default function Update() {
   const [books, setBooks] = useState({
@@ -12,6 +13,8 @@ export default function Update() {
     price: "",
     cover: "",
   });
+
+  const [loading, setLoading] = useState(false);
 
   //To catch book ID
   const location = useLocation();
@@ -34,39 +37,34 @@ export default function Update() {
 
   const handleClick = async (e) => {
     e.preventDefault();
-    if (file) {
-      const url = await upload(file);
-      setBooks((prev) => ({
-        ...prev,
-        cover: url,
-      }));
-      try {
-        if (books === "") {
-          return setErr(true);
-        }
-        const updatedBooks = {
+    setLoading(true);
+    try {
+      let updatedBooks = { ...books };
+
+      if (file) {
+        const url = await upload(file);
+        updatedBooks = {
           ...books,
           cover: url,
         };
-        await axios.put(`http://localhost:8000/api/books/${bookId}`, updatedBooks);
-        navigate("/");
-      } catch (error) {
-        console.log(error);
-        setErr(true);
       }
-    } else {
-      try {
-        if (books === "") {
-          return setErr(true);
-        }
-        await axios.put(`http://localhost:8000/api/books/${bookId}`, books);
-        navigate("/");
-      } catch (error) {
-        console.log(error);
+
+      if (Object.values(updatedBooks).some((value) => value === "")) {
         setErr(true);
+        return;
       }
+
+      await axios.put(
+        `http://localhost:8000/api/books/${bookId}`,
+        updatedBooks
+      );
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+      setErr(true);
+    } finally {
+      setLoading(false);
     }
-    console.log(books);
   };
 
   return (
@@ -158,6 +156,9 @@ export default function Update() {
             >
               ADD
             </Button>
+            <Stack alignItems="center" sx={{ marginTop: "15px" }}>
+              {loading && <Loading />}
+            </Stack>
           </Stack>
         </Stack>
       </Box>

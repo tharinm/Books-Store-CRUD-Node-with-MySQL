@@ -4,6 +4,7 @@ import Typography from "@mui/material/node/Typography";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import upload from "../../utils/upload";
+import Loading from '../../Component/Loading'
 
 export default function Add() {
   const [books, setBooks] = useState({
@@ -15,6 +16,7 @@ export default function Add() {
   const [err, setErr] = useState(false);
 
   const [file, setFile] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -30,47 +32,33 @@ export default function Add() {
 
   const handleClick = async (e) => {
     e.preventDefault();
+     setLoading(true);
 
-    if (file) {
-      const url = await upload(file);
-      setBooks((prev) => ({
-        ...prev,
-        cover: url,
-      }));
-
-      try {
-        if (books === "") {
-          return setErr(true);
-        }
-
-        const updatedBooks = {
+    try {
+      let updatedBooks = { ...books };
+      if (file) {
+        const url = await upload(file);
+        updatedBooks = {
           ...books,
           cover: url,
         };
-
-        await axios.post("http://localhost:8000/api/books", updatedBooks);
-        navigate("/");
-      } catch (error) {
-        console.log(error);
-        setErr(true);
       }
-    } else {
-      try {
-        if (books === "") {
-          return setErr(true);
-        }
-
-        await axios.post("http://localhost:8000/api/books", books);
-        navigate("/");
-      } catch (error) {
-        console.log(error);
+      if (Object.values(updatedBooks).some((value) => value === "")) {
         setErr(true);
+        return;
       }
+     
+      await axios.post("http://localhost:8000/api/books", updatedBooks);
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+      setErr(true);
+    } finally {
+      setLoading(false);
     }
-
-    console.log(books);
   };
 
+  console.log(loading)
 
   return (
     <Stack justifyItems="center" alignItems="center">
@@ -161,6 +149,9 @@ export default function Add() {
             >
               ADD
             </Button>
+            <Stack alignItems="center" sx={{ marginTop: "15px" }}>
+              {loading && <Loading />}
+            </Stack>
           </Stack>
         </Stack>
       </Box>
