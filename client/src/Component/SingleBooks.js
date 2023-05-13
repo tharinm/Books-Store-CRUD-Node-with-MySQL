@@ -31,14 +31,14 @@ export default function SingleBooks({ books, setBooks }) {
           component="img"
           height="140"
           image={books.cover}
-          alt="green iguana"
+          alt="img"
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
             {books.title}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            {books.desc}
+            {books.description}
           </Typography>
           <Typography marginTop="10px">Price {books.price}</Typography>
         </CardContent>
